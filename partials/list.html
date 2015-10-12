@@ -1,0 +1,212 @@
+<table id="listOfRequests" class="table table-hover" infinite-scroll="loadMore()" infinite-scroll-distance='1' >
+    <thead>
+		<tr>
+			<td class="requestBasic">Заявка</td>
+            <td>Заказчик</td>
+            <td>Тип транспорта</td>
+            <td>Статус</td>
+            <td>Информация о поездке</td>
+            <td>Водитель</td>          
+        </tr>
+    </thead>
+      
+    <tbody>
+         <tr ng-repeat="request in requests" id="{{request.id}}">
+     
+			<td class="requestBasic"># 
+				<span class="requestId">{{request.id}}</span><br>
+				<span>от  {{request.dateCreated}}, {{request.timeCreated}}</span><br>
+            
+				<div class="buttonContainer"><hr>
+					<span ng-show="data.currentUser.isAdmin == true && !request.inEditMode == true && data.currentUser != 0">
+						<a class="btn btn-mini btn-block" ng-click="setToEditMode(request.id)">
+							<i class="icon-edit"></i>
+							Редактировать
+						</a>  
+					</span>
+            
+					<span ng-show='request.isChanged && request.inEditMode'>
+					  <a class="btn btn-mini btn-block btn-success" ng-click="saveChanges(request.id)">
+						<i class="icon-ok-sign"></i>
+					   Сохранить
+					  </a> 
+					</span>
+            
+					<span ng-show='request.inEditMode'>
+					  <a class="btn btn-mini btn-block" ng-click="setToViewMode(request.id)">
+						<i class="icon-ban-circle"></i>
+					   Отмена
+					  </a>  
+					</span>
+            
+					<span ng-show="request.user.id == data.currentUser.id && !request.isRejectRecieved && !request.inEditMode && request.status.id != request.status.REJECTED">
+					  <a class="btn btn-mini btn-block" ng-click="sendRejectRequest(request.id)">
+						<i class="icon-ban-circle"></i>
+					   Отменить заявку
+					  </a>  
+					</span>
+					
+					<span ng-show="request.isRejectRecieved && request.status != request.status.REJECTED" class="label label-warning btn-block" title="Заявитель подал запрос на отклонение заявки"><center>Запрошено&nbsp; &nbsp;отклонение</center></span>
+				</div>
+            
+            
+            
+          </td>
+          
+          <td class="requestUser">
+            <span><b>{{request.user.surname}}</b><br>{{" " + request.user.name + " " + request.user.fname}}</span><br>
+            <span ng-show='request.user.phone != "null" && request.user.phone != ""'>{{request.user.phone}}</span>
+          </td>
+          
+          <td class="transportType">
+			<span ng-show="request.transportSubTypeId != 0 && request.transportSubTypeId != null" class="listLabel transportType">{{request.transportSubTypeTitle}}</span>
+            <span ng-show="request.transportSubTypeId == 0" class="listLabel transportType">{{request.transportTypeTitle}}</span>
+          </td>
+          
+          <td class="requestStatus">
+            <span ng-show='request.status.id == request.status.NOT_APPROVED && !request.inEditMode' class="listLabel status notApproved" title="Не подтверждена"></span>
+            <span ng-show='request.status.id == request.status.APPROVED && !request.inEditMode' class="listLabel status approved" title="Подтверждена"></span>
+            <span ng-show='request.status.id == request.status.REJECTED && !request.inEditMode' class="listLabel status rejected" title="Отклонена"></span>
+            <span ng-show='request.status.id == request.status.REJECTED && !request.inEditMode' class="listLabel"><span class="rejectReason">{{request.status.rejectReasonTitle}}</span></span>
+            <span ng-show="request.inEditMode">
+              <select ng-show="request.inEditMode" ng-model="request.backupObject.status.id" class="editCombo" ng-options="status.id as status.title for status in data.statusList" ng-change="setToChanged(request.id)"></select>
+           </span>
+		   <span ng-show="request.inEditMode && request.backupObject.status.id == request.status.REJECTED">
+              <select class="editCombo" ng-model="request.backupObject.status.rejectReasonId" ng-options="reason['REASON_ID'] as reason['REASON_TITLE'] for reason in data.rejectReasonList" ng-change="setToChanged(request.id)"></select>
+           </span>
+          </td>
+          
+          <td class="requestInfo">
+            <i ng-show='!request.inEditMode' class="icon-time" title="Продолжительность поездки"></i>
+            <span ng-show='!request.inEditMode' class="startTime">{{request.startTime | hdate:'dateTime'}}</span>
+            <span class="endTime" ng-show='getDay(request.startTime) == getDay(request.endTime) && !request.inEditMode'>&mdash; {{request.endTime | hdate:"time"}}</span>
+            <span class="endTime" ng-show='getDay(request.endTime) > getDay(request.startTime) && !request.inEditMode'>&mdash; {{request.endTime | hdate:"dateTime"}}</span>
+			
+			
+			<input type="text" class="longTime" id="start" time readonly
+				ng-model="request.backupObject.startTime" 
+				ng-show="request.inEditMode"
+				ng-change="setToChanged(request.id)" 
+			>
+			<span ng-show="request.inEditMode">&mdash;</span>	
+			<input type="text" class="longTime" id="end" time readonly
+				ng-model="request.backupObject.endTime" 
+				ng-show="request.inEditMode"
+				ng-change="setToChanged(request.id)" 
+			>
+			
+			<!--
+			<div class="littleWrapper">
+				<input type="text" class="dateInput" placeholder="Дата" id="listStartDate" readonly
+					ng-show='request.inEditMode' 
+					ng-model="request.backupObject.tempStartDate"
+					ng-change="setToChanged(request.id)" 
+					data-language="ru" 
+					data-format="dd.mm.yy" 
+					data-week-start="1" 
+					data-start-date="currentDate"
+					data-toggle="datepicker"
+					bs-datepicker>
+			</div>
+			<div class="littleWrapper">
+				<input type="text" class="timeInput" placeholder="Время"
+					ng-show='request.inEditMode' 
+					ng-model="request.backupObject.tempStartTime"  
+					ng-change="setToChanged(request.id)"
+					data-show-meridian="false"
+					> 
+				<span ng-show='request.inEditMode'>&mdash;</span>
+			</div>
+			<div class="littleWrapper">
+				<input type="text" class="dateInput" placeholder="Дата" id="endDate" readonly
+					ng-show='request.inEditMode' 
+					ng-model="request.backupObject.tempEndDate"  
+					ng-change="setToChanged(request.id)"
+					data-language="ru" 
+					data-format="dd.mm.yy" 
+					data-week-start="1" 
+					data-start-date=""
+					data-toggle="datepicker"
+					bs-datepicker>
+				<input type="text" class="timeInput" placeholder="Время" time request="{{request.id}}"
+					ng-show='request.inEditMode' 
+					ng-model="request.backupObject.tempEndTime"  
+					ng-change="setToChanged(request.id)">
+			</div>
+			-->
+			
+            <br ng-show='!request.inEditMode'>
+			<div ng-show="request.backupObject.errors.time.length > 0 && request.inEditMode" class="alert alert-error">
+					<span ng-repeat="error in request.backupObject.errors.time">{{error}}</span>
+			</div>
+            
+            <i ng-show='!request.inEditMode' class="icon-road" title="Маршрут поездки"></i>
+            <span ng-repeat='(index, route) in request.backupObject.route' class="routeElement">
+              <span ng-show='!request.inEditMode'>
+                <span ng-show='editMode'></span> {{route}} 
+                <span ng-show="index != request.backupObject.route.length - 1"> &rarr; </span>
+              </span>
+            </span>
+            <br>
+            <div ng-show='request.inEditMode'>
+                <ol class="routeList">
+					<li ng-repeat="(index, route) in request.backupObject.route">
+                      <a class="routeDeleteLink" title="Удалить элемент маршрута" ng-click="deleteRoute(request.id, index)">&nbsp;</a>
+                      {{route}} 
+					</li>
+                </ol>
+				<div ng-show="request.backupObject.errors.route.length > 0 && request.inEditMode" class="alert alert-error">
+					<span ng-repeat="error in request.backupObject.errors.route">{{error}}</span>
+				</div>
+				<a ng-show="!request.inAddRouteMode" class="addRouteLink" ng-click="setToAddRouteMode(request.id)"><i class="icon-plus"></i> Добавить элемент маршрута</a>
+				<div class="input-append" ng-show="request.inAddRouteMode">
+					<input ng-show="request.inAddRouteMode" class="autocompleteInput route" type="text" placeholder="Введите элемент маршрута" ng-model="typeaheadValue" bs-typeahead="data.routeList" keyFocus>
+					<button class="btn" type="button" ng-click="addRoute(request.id)"><i class="icon-plus"></i></button>
+				</div>
+            </div>
+            <!--<span ng-show='!request.inEditMode' class="icon auto" title="Транспортная еденица"></span>-->
+			<img ng-show='!request.inEditMode' src="img/car.png" class="carImg" title="Транспортная единица">
+            <span ng-show='request.transportItem.id != null && request.transportItem.id != 0 && !request.inEditMode' class="gid">{{request.transportItem.gid}} <img src="img/flag.gif"></span>
+            <span ng-show='request.transportItem.id != null && !request.inEditMode'>{{request.transportItem.model}}</span>
+			<input ng-show='request.inEditMode' type="text" class="autocompleteInput" ng-model="request.backupObject.transportItem.displayLabel" bs-typeahead="data.transportItemTitleList" ng-change="setToChanged(request.id)">
+			<div ng-show="request.backupObject.errors.transportItem.length > 0 && request.inEditMode" class="alert alert-error">
+				<span ng-repeat="error in request.backupObject.errors.transportItem">{{error}}</span>
+			</div>
+			<br>
+			<br ng-show="request.inEditMode">
+            
+            <span ng-show='request.info != null && !request.inEditMode' class="requestInfoLabel">
+              <i ng-show="!request.inEditMode && request.info != ''" class="icon-info-sign" title="Подробности поездки"></i> {{request.info}}
+            </span>
+            <textarea ng-show='request.inEditMode' ng-model="request.backupObject.info" rows="3" class="infoInput" placeholder="Подробности поездки" ng-change="setToChanged(request.id)"></textarea>
+          </td>
+          
+          <td class="requestDriver">
+
+
+            <!-- <span ng-show='request.driver.id == 0 && !request.inEditMode' class="listLabel emptyValue">не назначен</span> -->
+
+              <span ng-show='request.driverId == 0 && !request.inEditMode' class="listLabel emptyValue">не назначен</span>
+
+            <!--
+           <span ng-show='request.driver.id != 0 && !request.inEditMode'>
+              <b>{{request.driver.surname}}</b><br>
+              {{request.driver.name + " " + request.driver.fname}}
+            </span>
+            -->
+
+            <span ng-show='request.driverId != 0 && request.inEditMode == false'>
+              <b>{{data.drivers.findItemById(request.driverId).surname}}</b><br>
+              {{data.drivers.findItemById(request.driverId).name + " " + data.drivers.findItemById(request.driverId).fname}}
+            </span>
+
+            <span ng-show='request.driver.phone != "" && request.driver.phone != null && !request.inEditMode'><br>{{request.driver.phone}}</span>
+            <input ng-model="request.backupObject.driver.fio" ng-show='request.inEditMode' type="text" class="autocompleteInput" bs-typeahead="data.driverFioList" ng-change="setToChanged(request.id)">
+			<div ng-show="request.backupObject.errors.driver.length > 0 && request.inEditMode" class="alert alert-error">
+				<span ng-repeat="error in request.backupObject.errors.driver">{{error}}</span>
+			</div>
+          </td>
+          
+        </tr>
+      </tbody>  
+    </table>

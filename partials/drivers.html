@@ -1,0 +1,65 @@
+<div id="drivers">
+    <div id="left-col">
+        <input type="text" class="input-block-level" placeholder="Быстрый поиск" ng-model="search">
+        <div class="driver-card" ng-show="currentDriver.id != 0">
+            <img class="img-polaroid driver-photo" src="img/no_photo.jpg">
+            <span class="driver-fio">{{ currentDriver.fio }}</span>
+            <span class="driver-phone" ng-show="currentDriver.phone != null">тел. {{currentDriver.phone }}</span>
+            <div class="form-actions">
+                <button type="button" class="btn btn-block btn-warning"
+                        data-unique="1"
+                        data-placement="top"
+                        data-title="Выберите день отчета"
+                        bs-popover="'partials/daily-driver-report-popover.html'"
+                        ng-show="data.currentUser.isAdmin == true">
+                    <i class="icon-file"></i> Обзор заявок на день
+                </button>
+            </div>
+        </div>
+    </div>
+    <div id="content" class="container-fluid">
+        <table id="driversTable" class="table table-hover">
+            <thead>
+                <tr>
+                    <th class="span5">Ф.И.О. водителя</th>
+                    <th class="span3">Контактный телефон</th>
+                    <th class="span4"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="driver in data.drivers.items | orderBy:'+fio' | filter: search" id="{{'driver' + driver.id}}" ng-show="driver.id != 0" ng-click="setCurrentDriver(driver.id)">
+                    <td>
+                        <span ng-show="driver.inEditMode == false">{{ driver.fio }}</span>
+                        <input type="text" id="fio" ng-model="driver.fio" ng-show="driver.inEditMode == true" ng-change="driver.setToChanged()">
+                        <div ng-show="driver.errors.length > 0" class="alert alert-error">
+                            <span ng-repeat="error in driver.errors">{{ error }}</span>
+                        </div>
+                    </td>
+                    <td>
+                        <span ng-show="driver.inEditMode == false">{{ driver.phone }}</span>
+                        <input type="text" id="phone" ng-model="driver.phone" ng-show="driver.inEditMode == true" ng-change="driver.setToChanged()">
+                    </td>
+                    <td style="text-align: right;">
+                        <a class="btn"
+                            data-unique="1"
+                            data-placement="left"
+                            data-title="Подтвердите удаление"
+                            bs-popover="'partials/drivers_delete_popover.html'"
+                            ng-show="driver.inEditMode != true">
+                            <i class="icon-remove-sign"></i> Удалить
+                        </a>&nbsp;
+                        <a class="btn" ng-show="driver.inEditMode != true" ng-click="driver.setToEditMode()">
+                            <i class="icon-pencil"></i> Изменить
+                        </a>
+                        <a class="btn btn-success" ng-show="driver.isChanged == true" ng-click="saveChanges(driver.id)">
+                            <i class="icon-ok"></i> Сохранить
+                        </a>
+                        <a class="btn" ng-show="driver.inEditMode == true" ng-click="driver.cancelEditMode()">
+                            <i class="icon-ban-circle"></i> Отмена
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

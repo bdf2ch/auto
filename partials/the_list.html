@@ -1,0 +1,354 @@
+<div id="content">
+    <div ng-show="!data.inWeekMode">
+        <div class="norequests" ng-show="filteredday.length == 0 && data.requests.isLoaded  && !data.myRequestsFilter && (data.getDay(data.currentMoment) >= data.getDay(data.periodStart) && data.getDay(data.currentMoment) <= data.getDay(data.periodEnd))">На {{ data.currentMoment | hdate:"fullDay" }} заявок нет</div>
+        <div class="norequests" ng-show="filteredday.length == 0 && data.myRequestsFilter && (data.getDay(data.currentMoment) >= data.getDay(data.periodStart) && data.getDay(data.currentMoment) <= data.getDay(data.periodEnd))">На {{ data.currentMoment | hdate:"fullDay" }} Ваших заявок нет</div>
+        <div ng-repeat="req in filteredday = (data.requests.items | range:data.rangeStart:data.rangeEnd | transportsubtype:data.filters.findItemById(2).filterValue | orderBy:'+startTime' | user:data.filters.findItemById(1).filterValue | transportitem: data.filters.findItemById(4).filterValue | division: data.filters.findItemById(3).filterValue | driver: data.filters.findItemById(5).filterValue | status: data.filters.findItemById(6).filterValue | groupBy: data.currentGroup)" class="request-new container-fluid" id="{{req.id}}">
+        <!-- <div ng-repeat="req in filteredday = (data.requests.items | range:data.rangeStart:data.rangeEnd | orderBy:'startTime' | groupBy:data.currentGroup)" class="request-new container-fluid" id="{{req.id}}"> -->
+            <!--
+            <div class="request-header">
+                <span class="request-title"> {{ "Заявка #" +  req.id }} </span>
+                <a class="request-delete close">&times;</a>
+            </div>
+            -->
+
+            <div class="request-body container-fluid">
+                <div class="row-fluid span12">
+                    <div class="span1 request-about">
+                        <div class="about-request">{{ "ЗАЯВКА #" + req.id }}</div>
+                        <div class="about-date">{{ req.dateCreated + ", " + req.timeCreated }}</div>
+                        <!-- Сохранение изменений -->
+                        <span ng-show='req.isChanged && req.inEditMode'>
+                          <a class="btn btn-mini btn-block btn-success" ng-click="saveChanges(req.id)">
+                              <i class="icon-ok-sign"></i>
+                              Сохранить
+                          </a>
+                        </span>
+                        <!-- Отмена изменений -->
+                        <span ng-show='req.inEditMode'>
+                          <a class="btn btn-mini btn-block" ng-click="req.cancelEditMode()">
+                              <i class="icon-ban-circle"></i>
+                              Отмена
+                          </a>
+                        </span>
+                        <!-- Редактирование заявки -->
+                        <span ng-show="data.currentUser.isAdmin == true && !req.inEditMode && data.currentUser.id != 0">
+                            <a class="btn btn-mini btn-block" ng-click="setToEditMode(req.id)">
+                                <i class="icon-edit"></i>
+                                Изменить
+                            </a>
+                        </span>
+                        <!-- Печать заявки -->
+                        <span ng-show="!req.inEditMode && data.currentUser.id == req.userId">
+                            <a class="btn btn-mini btn-block" href="{{ 'php/print.php?id=' + req.id }}">
+                                <i class="icon-print"></i>
+                                Печать
+                            </a>
+                        </span>
+                        <button class="btn btn-default btn-block btn-mini" ng-show="req.userId == data.currentUser.id && !req.isCanceled && !req.inEditMode" ng-click="sendRejectRequest(req.id)">
+                            <i class="icon-ban-circle"></i> Отменить</button>
+                        <span class="label label-warning span12" ng-show="req.isCanceled">Отменена</span>
+                    </div>
+                    <div class="request-user span2">
+                        <span class="user-name">{{ data.users.findItemById(req.userId).surname + " " + data.users.findItemById(req.userId).name + " " + data.users.findItemById(req.userId).fname}}</span><br>
+                        <span class="user-division">{{ data.divisions.findItemById(data.users.findItemById(req.userId).divisionId).title }}</span>
+                        <!-- <span class="user-division">{{ data.getDivisionRoute(data.users.findItemById(req.userId).divisionId) }}</span> -->
+                        <!-- <span class="user-division">{{ data.getDivisionRoute(data.users.findItemById(req.userId).divisionId) }}</span> -->
+                        <!-- <span class="request-date">{{ req.dateCreated + " в " + req.timeCreated + " подал(а) заявку на " +  data.transportSubtypes.findItemById(req.transportSubtypeId).title }}</span> -->
+                        <!-- <a href="{{ 'mailto:' + data.users.findItemById(req.userId).email }}"><i class="icon-envelope"></i></a> -->
+                    </div>
+                    <div class="request-info span4">
+                        <div class="container-fluid">
+                            <div class="span6">
+                                <!-- <i ng-show='!req.inEditMode' class="icon-time" title="Продолжительность поездки"></i> -->
+                                <span ng-show='!req.inEditMode' class="start-time">{{req.start | hdate:'dateTime'}}</span>
+                                <span class="end-time" ng-show='data.getDay(req.start) == data.getDay(req.end) && !req.inEditMode'>&mdash; {{req.end | hdate:"time"}}</span>
+                                <span class="end-time" ng-show='data.getDay(req.end) > data.getDay(req.start) && !req.inEditMode'>&mdash; {{req.end | hdate:"dateTime"}}</span><br ng-show="!req.inEditMode">
+                                <div class="info" ng-show="req.info != '' && !req.inEditMode">
+                                    <blockquote>
+                                        {{ req.info }}
+                                    </blockquote>
+                                </div>
+                                <span ng-show="req.inEditMode" class="edit-comment">Укажите продолжительность</span>
+                                <input type="text" class="span6" id="start" time readonly
+                                       ng-model="req.start"
+                                       ng-show="req.inEditMode"
+                                       ng-change="req.setToChanged()"
+                                        >
+                               <!-- <span ng-show="req.inEditMode">&mdash;</span> -->
+                                <input type="text" class="span6" id="end" time readonly
+                                       ng-model="req.end"
+                                       ng-show="req.inEditMode"
+                                       ng-change="req.setToChanged()"
+                                        >
+                                <blockquote class="error" ng-show="req.errors.time.length > 0 && req.inEditMode" ng-repeat="error in req.errors.time">{{error}}</blockquote>
+                                <textarea ng-show='req.inEditMode' ng-model="req.info" rows="2" class="span12" placeholder="Подробности поездки" ng-change="req.setToChanged()"></textarea>
+
+                            </span>
+                            </div>
+                            <div class="span6">
+                                <div ng-show="!req.inEditMode" class="route-container">
+                                    <div ng-repeat="(index, route) in req.route" class="route" ng-class="{ lastRoute: index == req.route.length - 1}">
+                                        <img class="arrow" src="img/blue_dot.png" ng-show="index < req.route.length">
+                                        <span class="route-title">{{ route }}</span>
+                                    </div>
+                                </div>
+
+                                <span ng-show="req.inEditMode" class="edit-comment">Укажите маршрут
+                                <a ng-show="!req.inAddRouteMode && req.inEditMode" class="addRouteLink pull-right" ng-click="setToAddRouteMode(req.id)">Добавить</a></span>
+                                <div class="input-append input-block-level" ng-show="req.inAddRouteMode && req.inEditMode">
+                                    <input id="newRoute" name="newRoute" type="text" placeholder="Введите элемент маршрута" ng-model="typeaheadValue" bs-typeahead="data.routeLabels" keyFocus>
+                                    <button class="btn" type="button" ng-click="addRoute(req.id)"><i class="icon-plus"></i></button>
+                                </div>
+                                <table ng-show="req.inEditMode" class="table table-condensed table-striped">
+                                    <tbody>
+                                        <tr ng-repeat="(index, route) in req.route">
+                                            <td class="span12">
+                                                <a class="routeDeleteLink" title="Удалить элемент маршрута" ng-click="deleteRoute(req.id, index)">&nbsp;</a>
+                                                {{ route }}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <blockquote class="error" ng-show="req.errors.route.length > 0 && req.inEditMode" ng-repeat="error in req.errors.route">{{error}}</blockquote>
+
+                            </div>
+
+                        </div>
+                        <div>
+
+                        </div>
+
+                    </div>
+                    <div class="request-transport span2">
+                        <div ng-show="!req.inEditMode" class="transport-type">Тип: {{ data.transportSubtypes.findItemById(req.transportSubtypeId).title }}</div>
+                        <div class="transport-gid" ng-show="req.transportItemId != 0 && !req.inEditMode">{{ data.transports.findItemById(req.transportItemId).gid }}</div>
+                        <!-- <img class="transport-gid-flag" src="img/flagrus.gif"><br><br> -->
+                        <span class="transport-model" ng-show="req.transportItemId != 0 && !req.inEditMode">{{ data.transports.findItemById(req.transportItemId).model }}</span>
+                        <span class="transport-model empty" ng-show="req.transportItemId == 0 && !req.inEditMode">Транспорт не назначен</span>
+                        <span ng-show="req.inEditMode" class="edit-comment">Выберите транспорт из списка</span>
+                        <input ng-show='req.inEditMode' type="text" id="transport" class="transport-edit" ng-model="tempTransport.displayLabel" bs-typeahead="data.transportItemTitleList" ng-change="req.setToChanged()">
+                        <blockquote class="error" ng-show="req.errors.transport.length > 0 && req.inEditMode" ng-repeat="error in req.errors.transport">{{error}}</blockquote>
+                    </div>
+                    <div class="request-driver span2">
+                        <span class="driver-name" ng-show="req.driverId != 0 && !req.inEditMode">{{ data.drivers.findItemById(req.driverId).surname + " " + data.drivers.findItemById(req.driverId).name + " " + data.drivers.findItemById(req.driverId).fname}}</span>
+                        <!-- <br ng-show="data.drivers.findItemById(req.driverId).phone != ''"> -->
+                        <span class="request-date" ng-show="data.drivers.findItemById(req.driverId).phone != '' && !req.inEditMode">{{ data.drivers.findItemById(req.driverId).phone }}</span>
+                        <br ng-show="req.driverId == 0 && !req.inEditMode"><span class="request-date" ng-show="req.driverId == 0 && !req.inEditMode">Водитель не назначен</span>
+                        <span ng-show="req.inEditMode" class="edit-comment">Выберите водителя из списка</span>
+                        <input ng-model="tempDriver.fio" id="driver" ng-show='req.inEditMode' type="text" class="driver-edit" bs-typeahead="data.driverFioList" ng-change="req.setToChanged()">
+                        <blockquote class="error" ng-show="req.errors.driver.length > 0 && req.inEditMode" ng-repeat="error in req.errors.driver">{{error}}</blockquote>
+                    </div>
+                    <div class="span1 request-status">
+                        <span class="status-ico not-approved" ng-show="req.statusId == 1 && !req.inEditMode" title="Заявка не подтверждена"></span>
+                        <span class="status-ico approved" ng-show="req.statusId == 2 && !req.inEditMode" title="Заявка подтверждена"></span>
+                        <span class="status-ico rejected" ng-show="req.statusId == 3 && !req.inEditMode" title="Заявка отклонена"></span>
+                        <span class="reject-reason" ng-show="req.statusId == 3 && !req.inEditMode">{{ data.rejectReasons.findItemById(req.rejectReasonId).title }}</span>
+                        <span ng-show="req.inEditMode" class="edit-comment">Укажите статус</span>
+                            <select ng-show="req.inEditMode" ng-model="req.statusId" class="status-edit" ng-options="status.id as status.title for status in data.statuses.items" ng-change="req.setToChanged()"></select>
+                            <br>
+                            <select ng-show="req.statusId == 3 && req.inEditMode" class="status-edit" ng-model="req.rejectReasonId" ng-options="reason.id as reason.title for reason in data.rejectReasons.items" ng-change="req.setToChanged()"></select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div> <!-- END: List day mode -->
+
+
+    <!-- Список в разрезе недели -->
+    <div ng-show="data.inWeekMode">
+        <div class="norequests" ng-show="data.requests.isLoaded && data.requests.length() == 0 && !data.myRequestsFilter">С {{ data.periodStart | hdate:"fullDay" }} по {{ data.periodEnd | hdate:"fullDay" }} заявок нет</div>
+        <div class="norequests" ng-show="data.requests.isLoaded && data.myRequestsCount == 0 && data.myRequestsFilter">С {{ data.periodStart | hdate:"fullDay" }} по {{ data.periodEnd | hdate:"fullDay" }} Ваших заявок нет</div>
+
+        <div ng-repeat="day in data.periodDays" ng-show="data.countAll(day) > 0">
+            <div class="dayheader" id="{{ day }}" ng-show="filtered.length > 0">{{ day | hdate:"megafull" }}</div>
+
+
+            <!-- <requestdir ng-repeat="item in data.requests.items | range: day.start:day.end"  ng-model="item"></requestdir> -->
+
+
+            <div ng-repeat="req in filtered = (data.requests.items | range:day.start:day.end:data.requestsFilter | transportsubtype:data.filters.findItemById(2).filterValue | user:data.filters.findItemById(1).filterValue | transportitem: data.filters.findItemById(4).filterValue | division: data.filters.findItemById(3).filterValue | driver: data.filters.findItemById(5).filterValue | status: data.filters.findItemById(6).filterValue) | groupBy: data.currentGroup" class="request-new container-fluid" id="{{req.id}}">
+                <div class="request-body container-fluid">
+                    <div class="row-fluid span12">
+                        <div class="span1 request-about">
+                            <div class="about-request">{{ "ЗАЯВКА #" + req.id }}</div>
+                            <div class="about-dat   e">{{ req.dateCreated + ", " + req.timeCreated }}</div>
+                            <!-- Сохранение изменений -->
+                        <span ng-show='req.isChanged && req.inEditMode'>
+                          <a class="btn btn-mini btn-block btn-success" ng-click="saveChanges(req.id)">
+                              <i class="icon-ok-sign"></i>
+                              Сохранить
+                          </a>
+                        </span>
+                            <!-- Отмена изменений -->
+                        <span ng-show='req.inEditMode'>
+                          <a class="btn btn-mini btn-block" ng-click="req.cancelEditMode()">
+                              <i class="icon-ban-circle"></i>
+                              Отмена
+                          </a>
+                        </span>
+                            <!-- Редактирование заявки -->
+                        <span ng-show="data.currentUser.isAdmin == true && !req.inEditMode && data.currentUser.id != 0">
+                            <a class="btn btn-mini btn-block" ng-click="setToEditMode(req.id)">
+                                <i class="icon-edit"></i>
+                                Изменить
+                            </a>
+                        </span>
+                            <!-- Печать заявки -->
+                        <span ng-show="!req.inEditMode && data.currentUser.id == req.userId && data.currentUser.oblVid == 3">
+                            <a class="btn btn-mini btn-block" href="{{ 'php/print.php?id=' + req.id }}">
+                                <i class="icon-print"></i>
+                                Печать
+                            </a>
+                        </span>
+                            <button class="btn btn-default btn-block btn-mini" ng-show="req.userId == data.currentUser.id && !req.isCanceled && !req.inEditMode" ng-click="sendRejectRequest(req.id)">
+                                <i class="icon-ban-circle"></i> Отменить</button>
+                            <span class="label label-warning span12" ng-show="req.isCanceled">Отменена</span>
+                        </div>
+                        <div class="request-user span2">
+                            <span class="user-name">{{ data.users.findItemById(req.userId).surname + " " + data.users.findItemById(req.userId).name + " " + data.users.findItemById(req.userId).fname}}</span><br>
+                            <span class="user-division">{{ data.divisions.findItemById(data.users.findItemById(req.userId).divisionId).title }}</span>
+                            <!-- <span class="user-division">{{ data.getDivisionRoute(data.users.findItemById(req.userId).divisionId) }}</span> -->
+                            <!-- <span class="user-division">{{ data.getDivisionRoute(data.users.findItemById(req.userId).divisionId) }}</span> -->
+                            <!-- <span class="request-date">{{ req.dateCreated + " в " + req.timeCreated + " подал(а) заявку на " +  data.transportSubtypes.findItemById(req.transportSubtypeId).title }}</span> -->
+                            <!-- <a href="{{ 'mailto:' + data.users.findItemById(req.userId).email }}"><i class="icon-envelope"></i></a> -->
+                        </div>
+                        <div class="request-info span4">
+                            <div class="container-fluid">
+                                <div class="span6">
+                                    <!-- <i ng-show='!req.inEditMode' class="icon-time" title="Продолжительность поездки"></i> -->
+                                    <span ng-show='!req.inEditMode' class="start-time">{{req.start | hdate:'dateTime'}}</span>
+                                    <span class="end-time" ng-show='data.getDay(req.start) == data.getDay(req.end) && !req.inEditMode'>&mdash; {{req.end | hdate:"time"}}</span>
+                                    <span class="end-time" ng-show='data.getDay(req.end) > data.getDay(req.start) && !req.inEditMode'>&mdash; {{req.end | hdate:"dateTime"}}</span><br ng-show="!req.inEditMode">
+                                    <div class="info" ng-show="req.info != '' && !req.inEditMode">
+                                        <blockquote>
+                                            {{ req.info }}
+                                        </blockquote>
+                                    </div>
+                                    <span ng-show="req.inEditMode" class="edit-comment">Укажите продолжительность</span>
+                                    <input type="text" class="span6" id="start" time readonly
+                                           ng-model="req.start"
+                                           ng-show="req.inEditMode"
+                                           ng-change="req.setToChanged()"
+                                            >
+                                    <!-- <span ng-show="req.inEditMode">&mdash;</span> -->
+                                    <input type="text" class="span6" id="end" time readonly
+                                           ng-model="req.end"
+                                           ng-show="req.inEditMode"
+                                           ng-change="req.setToChanged()"
+                                            >
+                                    <blockquote class="error" ng-show="req.errors.time.length > 0 && req.inEditMode" ng-repeat="error in req.errors.time">{{error}}</blockquote>
+                                    <textarea ng-show='req.inEditMode' ng-model="req.info" rows="2" class="span12" placeholder="Подробности поездки" ng-change="req.setToChanged()"></textarea>
+
+                                    </span>
+                                </div>
+                                <div class="span6">
+                                    <div ng-show="!req.inEditMode" class="route-container">
+                                        <div ng-repeat="(index, route) in req.route" class="route" ng-class="{ lastRoute: index == req.route.length - 1}">
+                                            <img class="arrow" src="img/blue_dot.png" ng-show="index < req.route.length">
+                                            <span class="route-title">{{ route }}</span>
+                                        </div>
+                                    </div>
+
+                                <span ng-show="req.inEditMode" class="edit-comment">Укажите маршрут
+                                <a ng-show="!req.inAddRouteMode && req.inEditMode" class="addRouteLink pull-right" ng-click="setToAddRouteMode(req.id)">Добавить</a></span>
+                                    <div class="input-append input-block-level" ng-show="req.inAddRouteMode && req.inEditMode">
+                                        <input id="newRoute" name="newRoute" type="text" placeholder="Введите элемент маршрута" ng-model="typeaheadValue" bs-typeahead="data.routeLabels" keyFocus>
+                                        <button class="btn" type="button" ng-click="addRoute(req.id)"><i class="icon-plus"></i></button>
+                                    </div>
+                                    <table ng-show="req.inEditMode" class="table table-condensed table-striped">
+                                        <tbody>
+                                        <tr ng-repeat="(index, route) in req.route">
+                                            <td class="span12">
+                                                <a class="routeDeleteLink" title="Удалить элемент маршрута" ng-click="deleteRoute(req.id, index)">&nbsp;</a>
+                                                {{ route }}
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <blockquote class="error" ng-show="req.errors.route.length > 0 && req.inEditMode" ng-repeat="error in req.errors.route">{{error}}</blockquote>
+
+                                </div>
+
+                            </div>
+                            <div>
+
+                            </div>
+
+                        </div>
+                        <div class="request-transport span2">
+                            <div ng-show="!req.inEditMode" class="transport-type">Тип: {{ data.transportSubtypes.findItemById(req.transportSubtypeId).title }}</div>
+                            <div class="transport-gid" ng-show="req.transportItemId != 0 && !req.inEditMode">{{ data.transports.findItemById(req.transportItemId).gid }}</div>
+                            <!-- <img class="transport-gid-flag" src="img/flagrus.gif"><br><br> -->
+                            <span class="transport-model" ng-show="req.transportItemId != 0 && !req.inEditMode">{{ data.transports.findItemById(req.transportItemId).model }}</span>
+                            <span class="transport-model empty" ng-show="req.transportItemId == 0 && !req.inEditMode">Транспорт не назначен</span>
+                            <span ng-show="req.inEditMode" class="edit-comment">Выберите транспорт из списка</span>
+                            <input ng-show='req.inEditMode' type="text" id="transport" class="transport-edit" ng-model="tempTransport.displayLabel" bs-typeahead="data.transportItemTitleList" ng-change="req.setToChanged()">
+                            <blockquote class="error" ng-show="req.errors.transport.length > 0 && req.inEditMode" ng-repeat="error in req.errors.transport">{{error}}</blockquote>
+                        </div>
+                        <div class="request-driver span2">
+                            <span class="driver-name" ng-show="req.driverId != 0 && !req.inEditMode">{{ data.drivers.findItemById(req.driverId).surname + " " + data.drivers.findItemById(req.driverId).name + " " + data.drivers.findItemById(req.driverId).fname}}</span>
+                            <!-- <br ng-show="data.drivers.findItemById(req.driverId).phone != ''"> -->
+                            <span class="request-date" ng-show="data.drivers.findItemById(req.driverId).phone != '' && !req.inEditMode">{{ data.drivers.findItemById(req.driverId).phone }}</span>
+                            <br ng-show="req.driverId == 0 && !req.inEditMode"><span class="request-date" ng-show="req.driverId == 0 && !req.inEditMode">Водитель не назначен</span>
+                            <span ng-show="req.inEditMode" class="edit-comment">Выберите водителя из списка</span>
+                            <input ng-model="tempDriver.fio" id="driver" ng-show='req.inEditMode' type="text" class="driver-edit" bs-typeahead="data.driverFioList" ng-change="req.setToChanged()">
+                            <blockquote class="error" ng-show="req.errors.driver.length > 0 && req.inEditMode" ng-repeat="error in req.errors.driver">{{error}}</blockquote>
+                        </div>
+                        <div class="span1 request-status">
+                            <span class="status-ico not-approved" ng-show="req.statusId == 1 && !req.inEditMode" title="Заявка не подтверждена"></span>
+                            <span class="status-ico approved" ng-show="req.statusId == 2 && !req.inEditMode" title="Заявка подтверждена"></span>
+                            <span class="status-ico rejected" ng-show="req.statusId == 3 && !req.inEditMode" title="Заявка отклонена"></span>
+                            <span class="reject-reason" ng-show="req.statusId == 3 && !req.inEditMode">{{ data.rejectReasons.findItemById(req.rejectReasonId).title }}</span>
+                            <span ng-show="req.inEditMode" class="edit-comment">Укажите статус</span>
+                            <select ng-show="req.inEditMode" ng-model="req.statusId" class="status-edit" ng-options="status.id as status.title for status in data.statuses.items" ng-change="req.setToChanged()"></select>
+                            <br>
+                            <select ng-show="req.statusId == 3 && req.inEditMode" class="status-edit" ng-model="req.rejectReasonId" ng-options="reason.id as reason.title for reason in data.rejectReasons.items" ng-change="req.setToChanged()"></select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<div class="navbar navbar-fixed-bottom" id="bottomMenu">
+    <div class="navbar-inner">
+        <div class="row-fluid">
+            <div id="controls">
+                <div class="btn-group">
+                    <button class="btn span6" ng-click="previous()">
+                        <i class="icon-arrow-left"></i> Пред. неделя
+                    </button>
+                    <button class="btn span6" ng-click="next()">
+                        Cлед. неделя <i class="icon-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+            <div id="links">
+                <!-- В разрезе дня -->
+                <a ng-repeat="day in data.periodDays" ng-click="data.setDay(day)" ng-class="{active: data.getDay(day) == data.getDay(data.currentMoment)}" id="{{ day.format('DDMMYYYY') }}" class="weekDay" datenavigation ng-show="!data.inWeekMode">
+                    <span class="today" ng-show="data.getDay(day) == data.getDay(data.currentDate)">Сегодня</span>
+                    <span class="badge badge-warning" ng-show="data.currentUser.isAdmin && data.countUnapproved(day) > 0 && data.getDay(day) == data.getDay(data.currentDate)" title="{{ 'Неподтвержденных заявок: ' + data.countUnapproved(day) }}">{{ data.countUnapproved(day) }}</span>
+                    <span class="badge badge-info" ng-show="!data.currentUser.isAdmin && data.countAll(day) > 0 && data.getDay(day) == data.getDay(data.currentDate)" title="{{ 'Количество заявок: ' + data.countAll(day) }}">{{ data.countAll(day) }}</span>
+                    <br ng-show="data.getDay(day) == data.getDay(data.currentDate)">
+                    <span class="dayTitle" ng-show="data.getDay(day) == data.getDay(data.currentDate)">{{ day | hdate:'today' }}</span>
+
+                    <span ng-show="data.getDay(day) != data.getDay(data.currentDate)">{{ day | hdate:"fullDay" }}</span>
+                    <span class="badge badge-warning" ng-show="data.currentUser.isAdmin && data.countUnapproved(day) > 0 && data.getDay(day) != data.getDay(data.currentDate)" title="{{ 'Неподтвержденных заявок: ' + data.countUnapproved(day) }}">{{ data.countUnapproved(day) }}</span>
+                    <span class="badge badge-info" ng-show="!data.currentUser.isAdmin && data.countAll(day) > 0 && data.getDay(day) != data.getDay(data.currentDate)" title="{{ 'Количество заявок: ' + data.countAll(day) }}">{{ data.countAll(day) }}</span>
+                    <br>
+                    <span ng-show="data.getDay(day) != data.getDay(data.currentDate)" class="dayTitle">{{ day | hdate:"dayTitle" }}</span>
+                </a>
+                <!-- В разрезе недели -->
+                <div id="weekrange" ng-show="data.inWeekMode">
+                    {{data.periodStart | hdate:"fullDay"}} &nbsp; &mdash; &nbsp; {{data.periodEnd | hdate:"fullDay"}}
+                    &nbsp;<span class="badge badge-warning" ng-show="data.currentUser.isAdmin && data.countUnapproved(day) > 0" title="{{ 'Неподтвержденных заявок: ' + data.countUnapproved(day) }}">{{ data.countUnapproved(day) }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

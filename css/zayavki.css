@@ -1,0 +1,681 @@
+
+img { 
+    behavior: url(src/css/iepngfix.htc); 
+}
+
+.informer {
+    background-image: url(../img/bg_infbar_3x32.png);
+    bottom: 0;
+    height: 32px;
+    left: 0;
+    position: fixed;
+    width: 100%;
+    z-index: 100;
+    /*display:none;*/
+}
+a.whiteLink{
+    color: #FFF;
+}
+
+a.blueLink{
+    color: #06c;
+}
+
+a:hover{
+    color: #F7A922;
+}
+
+#actionsHolder{
+    width: 39%; 
+    float: right; 
+    border: 1px solid #D3D3D3;
+}
+
+#actionsHolder div, #actionsHolder img, #actionsHolder input{
+    margin: 0 10px;
+}
+
+.active-ico {
+    margin-left: 5px;
+    cursor: default !important;
+    width: 16px;
+    height: 16px;
+    border: 0px;
+    vertical-align: middle;
+}
+
+.active-ico-act {
+    margin-left: 5px;
+    cursor: pointer !important;
+    width: 16px;
+    height: 16px;
+    border: 0px;
+    vertical-align: middle;
+}
+
+.ap-Overall{ cursor: pointer; }
+
+.text-gray.lighter-border{ border-bottom: 1px dotted #bbb; }
+
+.text-gray.lighter-border:hover{ border-bottom: 1px dotted #F7A922; }
+
+.active-text {
+    border-bottom: 1px dotted; 
+    cursor: pointer !important;
+}
+
+.text-red   { color: #F00; }
+.text-blue  { color: #06c; }
+.text-gray  { color: #555; }
+.text-green { color: #7a1; }
+.text-gray-light  { color: #bbb; }
+.text-hover { color: #F7A922; }
+
+.basicTable{
+    border: 0px; 
+    width: 98%; 
+    table-layout: fixed;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    background-color: #fff;
+    font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    min-width: 960px;
+}
+
+.contrItem {
+    cursor: pointer;
+    width: 125px;
+    height: 70px;
+    float: left;
+    color: white;
+    text-align: center;
+    text-decoration: underline;
+    margin-right: 1px;
+}
+
+#start .contrItem{
+    cursor: default;
+    text-decoration: none;
+}
+
+#contrdit{
+    background-image: url('../img/head_fon_100.png');
+    background-color: #09c;
+}
+#dit #contrdit{
+    background-image: none;
+    cursor: default;
+    font-weight: bold; 
+    text-decoration: none;
+}
+
+#contrat{
+    background-image: url('../img/head_fon_100.png');
+    background-color: #9c3;
+}
+#at #contrat{
+    background-image: none;
+    cursor: default;
+    font-weight: bold; 
+    text-decoration: none;
+}
+
+#contraho{
+    background-image: url('../img/head_fon_100.png');
+    background-color: #FECA40;
+}
+#aho #contraho{
+    background-image: none;
+    cursor: default;
+    font-weight: bold; 
+    text-decoration: none;
+}
+
+#contradmin{
+    background-image: url(../img/head_fon_100.png);
+    background-color: #AAA;
+}
+#admin #contradmin{
+    background-image: none;
+    cursor: default;
+    font-weight: bold; 
+    text-decoration: none;
+}
+
+#contrzakupki{
+    background-image: url(../img/head_fon_100.png);
+    background-color: #9c3;
+}
+#zakupki #contrzakupki{
+    background-image: none;
+    cursor: default;
+    font-weight: bold; 
+    text-decoration: none;
+}
+
+
+.dialogFormLbl {
+    float: left;
+    width: 55px;
+    margin-left: 25px;
+}
+
+#dialog-stateList {
+    font-size: 14px;
+}
+
+#dialog-stateList img{
+    vertical-align: bottom;
+}
+
+#dialog-stateList li{
+    margin: 7px 0;
+    list-style: none;
+}
+
+#executor_list li{
+    margin: 7px 0;
+    list-style: none;
+}
+
+#dialog-stateList li span{
+    color: #06c;
+    border-bottom: 1px dotted;
+    cursor: pointer;
+}
+
+#dialog-stateList li span:hover{
+    color: #F7A922;
+    border-bottom: 1px dotted;
+}
+
+.execNameHolder {line-height: 20px;}
+
+.execUserInfo { line-height: 16px; width: 270px; }
+
+.execUserInfo tr {vertical-align:top;}
+
+.execUserImg {margin:2px 5px;}
+
+form {
+    margin:  0px;
+    padding: 0px;
+    border:  0px;
+}
+
+#header {
+    background-image: url(../img/head_fon_100.png);
+    background-color: #06c;
+    width: 100%;
+    height: 70px;
+    empty-cells: show;
+    line-height: 12px !important;
+}
+
+#ap_hist{
+    width: 100%;
+    table-layout: fixed;
+}
+#ap_hist tbody tr td {
+    vertical-align: top;
+}
+#ap_hist_holder{
+    height: 265px; 
+    overflow: auto; 
+    border: 1px solid #eee;
+}
+
+#helpDialog {font-size: 16px;}
+
+#helpDialog p{text-indent: 20px;}
+
+#helpDialog img {
+    -moz-box-shadow: 0 5px 10px rgba(0,0,0,0.2); /* Для Firefox */
+    -webkit-box-shadow: 0 5px 10px rgba(0,0,0,0.2); /* Для Safari и Chrome */
+    box-shadow: 0 5px 10px rgba(0,0,0,0.2); /* Параметры тени */
+}
+
+.histFstColumn{
+    width: 50px; 
+    text-align: center;
+}
+
+.histSecColumn{
+    vertical-align: top;
+}
+
+.histTextFont {
+    font-size: 12px;
+}
+
+.histTextSmallFont{
+    font-size: 10px;
+    color:gray;
+}
+
+#infoHoldMain{
+    background-color: #e0e0e0;
+    border: 1px solid gainsboro;
+}
+
+#infoHoldAddit{
+    background-color: #f0f0f0;
+    border: 1px solid gainsboro;
+}
+
+#statusChanger {
+    font-size: 14px; 
+    font-family: Arial; 
+    margin-left: 10px;
+}
+
+#subHeadLine {
+    width: 100%;
+    height: 10px;
+    font-size: 2px;
+    empty-cells: show;
+}
+#dit #subHeadLine{
+    background-color: #09c;
+}
+#at #subHeadLine{
+    background-color: #9c3;
+}
+#aho #subHeadLine{
+    background-color: #FECA40;
+}
+#admin #subHeadLine{
+    background-color: #AAA;
+}
+#zakupki #subHeadLine{
+    background-color: #9c3;
+}
+
+.loginFormTable td{
+    text-align: left;
+    vertical-align: top;
+    height: 30px;
+}
+
+.loginFormInput{
+    width: 200px;
+}
+
+td.loginFormLbs{
+    width: 65px;
+    padding: 5px 0 0 10px;
+}
+
+#labelHolder{
+    float: left;
+    padding-top: 15px;
+}
+
+#lblzzCrt{
+    font-family: 'PT Serif', serif;
+    font-size: 24px;
+}
+
+#dit #lblzzCrt{
+    color: #09c;
+}
+
+#at #lblzzCrt{
+    color: #9c3;
+}
+
+#admin #lblzzCrt{
+    color: #999;
+}
+
+#zakupki #lblzzCrt{
+    color: #9c3;
+}
+
+
+#mainFilter div{
+    padding: 5px;
+    float: left;
+    text-align: center;
+    width: 100px;
+    margin: 5px 0 0 5px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    background-color: #eee;
+    border-radius: 2px;
+}
+
+/*   Состояния основного фильтра в завитсимости от раздела и  выбранного пункта   */
+
+#dit #mainFilter div:hover {
+    border: 1px solid #09c;
+}
+
+#admin #mainFilter div:hover {
+    border: 1px solid #aaa;
+}
+
+#zakupki #mainFilter div:hover {
+    border: 1px solid #9c3;
+}
+
+#dit .act #mf-act {
+    color: #fff;
+    border: 1px solid #09c;
+    background-color: #09c;
+    text-decoration: none;
+    cursor: default;
+}
+
+#dit .arh #mf-arh {
+    color: #fff;
+    border: 1px solid #09c;
+    background-color: #09c;
+    text-decoration: none;
+    cursor: default;
+}
+
+#dit .bin #mf-bin {
+    color: #fff;
+    border: 1px solid #09c;
+    background-color: #09c;
+    text-decoration: none;
+    cursor: default;
+}
+
+#admin .act #mf-act {
+    color: #fff;
+    border: 1px solid #aaa;
+    background-color: #aaa;
+    text-decoration: none;
+    cursor: default;
+}
+
+#admin .new #mf-new {
+    color: #fff;
+    border: 1px solid #aaa;
+    background-color: #aaa;
+    text-decoration: none;
+    cursor: default;
+}
+
+#admin .arh #mf-arh {
+    color: #fff;
+    border: 1px solid #aaa;
+    background-color: #aaa;
+    text-decoration: none;
+    cursor: default;
+}
+
+#admin .all #mf-all {
+    color: #fff;
+    border: 1px solid #aaa;
+    background-color: #aaa;
+    text-decoration: none;
+    cursor: default;
+}
+
+#zakupki .act #mf-act {
+    color: #fff;
+    border: 1px solid #9c3;
+    background-color: #9c3;
+    text-decoration: none;
+    cursor: default;
+}
+
+#zakupki .arh #mf-arh {
+    color: #fff;
+    border: 1px solid #9c3;
+    background-color: #9c3;
+    text-decoration: none;
+    cursor: default;
+}
+
+#zak-type{
+    float: left; 
+    margin-left:30px; 
+    padding-top: 10px; 
+    color: #7a1;
+}
+
+#zak-type input{
+    margin-left: 10px;
+}
+
+#zak-table-viewcom {
+    width: 100%; 
+    background-color: #ddd; 
+    font-size: 12px;
+}
+
+#zak-table-viewcom thead th{
+    text-align: left;
+}
+
+#zak-table-viewcom tbody tr {
+    background-color: white;    
+}
+
+/*   Состояния основного фильтра в завитсимости от раздела и  выбранного пункта   */
+
+.midleLbl{
+    margin-left: -5px;
+    font-family: 'PT Serif', serif;
+    font-size: 18px;
+    color: dimgray;
+}
+
+#newCommentText {
+    border: 0;
+    width: 98%;
+    margin: 2px;
+    height: 130px; 
+    font-family: arial; 
+    font-size: 12px;
+    resize:none;
+}
+
+#newCommentTextHolder {
+    height: 137px; 
+    border: 1px solid #ccc;
+}
+
+.newZZformFld{
+    width:90%; 
+    vertical-align: top;
+}
+
+.newZZformLbl{
+    white-space: nowrap;
+    padding-left: 10px;
+    width: 130px;
+    min-width: 130px;
+    text-align: left; 
+    vertical-align: top; 
+    height: 30px;
+}
+
+.basicTable td{
+    height: 35px;
+    vertical-align: top;
+}
+
+.basicTable td.group{
+    height: 25px;
+    vertical-align: top;
+}
+
+.al_fnt_red_11 {
+    color: #cd0a0a;
+    font-size: 11px;
+}
+
+#sysLabel{
+    margin: 10px 20px;
+    font-family: 'PT Serif', serif;
+    font-size: 32px;
+    color: white;
+    width:120px;
+}
+
+#passRemind {
+    font-size: 12px; float: right; 
+    margin: 3px 15px 0 0;
+}
+
+.sep5x5{
+    width: 5px;
+    height: 5px;
+    clear: both;
+    line-height: 5px; 
+}
+.sep10x10{
+    width: 10px;
+    height: 10px;
+    clear: both;
+    line-height: 10px;
+}
+.sep15x15{
+    width: 15px;
+    height: 15px;
+    clear: both;
+    line-height: 15px;
+}
+
+#alertHolder{
+    font-size: 12px;
+    color: whitesmoke;
+    bottom: 0;
+    right: 0;
+    position: fixed;
+    width: 350px;
+    z-index: 1000;
+}
+
+.splashAlert{
+    padding: 10px;
+    border-top: 1px solid #6699cc;
+    border-bottom: 1px solid #003399;
+    background-color: #0066cc;    
+}
+
+#table-addToBasket{
+    width: 100%;
+    border: none;
+}
+
+#table-addToBasket thead th {
+    background-color: #efefef;
+    text-align: left;
+}
+
+#table-addToBasket tbody td {
+    text-align: left;
+    vertical-align: top;
+}
+
+#table-addToBasket tbody td {
+    text-align: left;
+    vertical-align: middle;
+}
+#table-addToBasket tbody tr {
+    height: 40px;
+}
+#table-addToBasket tbody td:first-child{
+    text-align: center;
+}
+#table-addToBasket tbody td:last-child{
+    text-align: center;
+}
+
+.timePickerHide{
+    display: none;
+}
+
+.tooltip{ 
+    position: absolute; 
+    z-index: 1000; 
+    display: none; 
+    background-color: #efefef; 
+    border: 1px solid #888; 
+    padding:5px;
+    cursor:default;
+}
+
+#fast-ap-dialog tr {
+    vertical-align: top;
+}
+
+/*CSS FOR TIME PICKER*/
+.ui-timepicker-div .ui-widget-header{ margin-bottom: 8px; }
+.ui-timepicker-div dl{ text-align: left; width: 95%; }
+.ui-timepicker-div dl dt{ height: 25px; margin-left: 5px; }
+.ui-timepicker-div dl dd{ margin: -25px 0 10px 65px; }
+.ui-timepicker-div td { font-size: 90%; }
+/*CSS FOR TIME PICKER END*/
+
+.ui-dialog {
+    -moz-box-shadow: 0 5px 10px rgba(0,0,0,0.2); /* Для Firefox */
+    -webkit-box-shadow: 0 5px 10px rgba(0,0,0,0.2); /* Для Safari и Chrome */
+    box-shadow: 0 5px 10px rgba(0,0,0,0.2); /* Параметры тени */
+}
+
+
+#userApListTable{
+    width: 100%; 
+    empty-cells: show; 
+    background-color: #eee; 
+    border-collapse: collapse; 
+    font-size: 12px;
+    table-layout: fixed;
+}
+
+#userApListTable tr th{
+    text-align: left;
+}
+
+.trEvenBG{
+    background-color:  #fefefe;
+}
+
+.trOddBG{
+    background-color:  #ebebeb;
+}
+
+.trHoveredBG{
+    background-color: #ffffcf;
+}
+
+ul.zak-stats{
+    margin: 0;
+    padding: 5px 0px;
+    border-bottom: 1px solid #eee;
+}
+
+ul.zak-stats li{
+    white-space: nowrap;
+    line-height: 20px;
+    color: #7a1;
+    display: inline-block;
+    margin: 0px 5px;
+    border-bottom: 1px dotted;
+    cursor: pointer;
+    padding: 2px 3px;
+}
+
+ul.zak-stats li:hover{
+    color: #F7A922;
+}
+
+ul.zak-stats li.checked{
+    border: none;
+    cursor: default;
+    color: white;
+    background-color: #9c3;
+}
+
+

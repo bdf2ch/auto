@@ -1,0 +1,91 @@
+<div style="text-align: center;">
+    <div class="sep15x15"></div>
+    <div class="sep15x15"></div>
+    <div style="width:300px; margin: 20px auto; background-color: #E5E5E5;">
+        <div class="sep15x15"></div>    
+        <form id="loginForm" method="get" action="login.php">
+            <table style="border: none; width: 100%; empty-cells: show;" class="loginFormTable">
+                <tr>
+                    <td class="loginFormLbs"><label for="uLogin">E-mail</label></td>
+                    <td><input id="uLogin" name="uLogin" type="text" class="loginFormInput" value="<?php echo $uLogin;?>"/></td>
+                </tr>
+                <tr>
+                <tr>
+                    <td class="loginFormLbs"><label for="uPasswd">Пароль</label></td>
+                    <td><input id="uPasswd" name="uPasswd" type="password" class="loginFormInput" value=""/><span id="passRemind" class="active-text text-blue">Напомнить</span></td>
+                </tr>
+                <tr>
+                    <td class="loginFormLbs"></td>
+                    <td><input id="lfSubmit" type="submit" value="Войти"/></td>
+                </tr>
+            </table>
+        </form>
+        <div class="sep10x10"></div>
+        <div id="passRemindForm" title="Восстановление пароля" style="display: none;">
+            <p>Укажите адрес электронной почты, под которым вы зарегистрированы в системе.</p>
+            <input id="passRemindEmail" type ="text" class="loginFormInput" />
+        </div>
+    </div>
+    <?php
+        if (isset($_GET['err'])){
+        
+            if($_GET['err'] == 'logon') echo ('<img src="src/img/ico_error_32x32.png" border="0"/><br/>Неправильный e-mail адрес, или пароль!');
+            else if($_GET['err'] == 'glob') echo ('<img src="src/img/ico_error_32x32.png" border="0"/><br/>Системная ошибка!<br/>Дальнейшее продолжение работы невозможно, обратитесь к администратору.');
+        }
+    ?>
+</div>
+<script type="text/javascript">
+$(document).ready( function(){
+        
+        //======================================================================
+        if ($('#uLogin').val() != '') $('#uPasswd').focus();
+        else $('#uLogin').focus();
+       
+        
+        
+        //======================================================================
+        $('#passRemind').click(function(){
+            $('#passRemindEmail').val($('#uLogin').val());
+            var email = $('#passRemindEmail').val();
+            $('#passRemindForm').dialog({
+                resizable: false,
+                buttons: {
+                    'Напомнить': function(){
+                        var email = $('#passRemindEmail').val();
+                        var dlg   = $(this);
+                        $.ajax({
+                            type:    'GET',
+                            url:     'user_passwd_remind.php',
+                            data:    {'email': email},
+                            success: function(data){
+                                
+                                var result = $.parseJSON(data);
+                                
+                                if (result.message){
+                                    dlg.dialog('close');
+                                    splashAlert('accept', result.message);
+                                                                
+                                } else if (result.error){
+                                    splashAlert('error', result.error);
+                                } 
+                                
+                            }
+                        });
+                    },
+                    'Отмена': function(){
+                        $(this).dialog('close');
+                    }
+                }
+            });
+        });
+        
+        
+        //========================================================
+	$( "#passRemindEmail" ).autocomplete({
+            source: "ac_search_usr_eml.php",
+            delay: 300,
+            minLength: 2
+	});
+
+});
+</script>

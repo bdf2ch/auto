@@ -1,0 +1,18 @@
+<?php
+    ini_set('display_errors', TRUE);
+    ini_set('display_startup_errors', TRUE);
+
+    if (PHP_SAPI == 'cli')
+        die('This example should only be run from a Web Browser');
+    include "../../php/user.class.php";
+    require_once '../../../php/Classes/PHPExcel.php';
+
+    if (isset($_COOKIE["id"]))
+        $id = $_COOKIE["id"];
+
+    $objPHPExcel = new PHPExcel();
+    $objPHPExcel->removeSheetByIndex(0);
+    $worksheet = new PHPExcel_Worksheet($objPHPExcel, 'Заявка #'.$id);
+    $objPHPExcel->addSheet($worksheet, 1);
+    $objPHPExcel->setActiveSheetIndex(0);
+?>

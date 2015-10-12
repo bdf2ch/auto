@@ -1,0 +1,112 @@
+<!-- BEGIN: main -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <link type="text/css" href="http://fonts.googleapis.com/css?family=PT+Serif:b&subset=cyrillic,latin" rel="stylesheet"  />
+        
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Заявки</title>
+        
+        <link type="text/css" href="/zayavki/src/css/zayavki.css" rel="stylesheet" />
+        <link type="text/css" href="../css/auto.css"  rel="stylesheet" />
+        <link type="text/css" href="/zayavki/jquery/css/redmond/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
+        <link type="text/css" href="/zayavki/fileuploader/fileuploader.css"  rel="stylesheet" />
+        <link type="text/css" href="/zayavki/akzhan/jquery.wysiwyg.css" rel="stylesheet" />
+        <!--[if lt IE 7]>
+            <link rel="stylesheet" type="text/css" href="src/css/zayavki_ie6.css" />
+        <![endif]-->
+        <script type="text/javascript" src="/zayavki/jquery/js/jquery-1.7.1.min.js"></script>
+        <script type="text/javascript" src="/zayavki/jquery/js/jquery-ui-1.8.16.custom.min.js"></script>
+        <script type="text/javascript" src="/zayavki/jquery/js/jquery-ui-timepicker-addon.js"></script>
+        <script type="text/javascript" src="/zayavki/jquery/development-bundle/ui/i18n/jquery-ui-i18n.js"></script>
+        <script type="text/javascript" src="/zayavki/jquery/js/jquery.simpletip-1.3.1.min.js"></script>
+        
+        <!-- <script type="text/javascript" src="/zayavki/src/js/zayavki.js"></script> -->
+        <script type="text/javascript" src="/zayavki/akzhan/jquery.wysiwyg.js"></script>
+        
+        <script type="text/javascript" src="../js/main.js"></script>
+        <script type="text/javascript" src="../js/moment.min.js"></script>
+        <script type="text/javascript" src="../js/moment_ru.js"></script>
+        <!--
+        <script type="text/javascript" src="../js/framework.js"></script>-->
+    </head>
+    
+    <body id="{BODY_ID}">
+        
+        
+        
+        
+        {FILE {MAIN_HEADER}}
+        
+        <div id="subHeadLine"></div>
+       
+        <div id="content" style="margin: 0;">
+            
+            <div class="sep10x10"></div>
+               
+            {FILE{CONTENT}}
+            
+            
+            
+            <?php
+                if (!isset($_COOKIE['user_id'])){
+                    
+                    include 'login_form.php';
+                    
+                } else {
+                    
+                    if ($_SESSION['section'] == 'dit'){                         //== Пользовательский раздел департамента ИТ
+                        
+                        if($stt=='viewcom')         include 'it_viewcom_zz.php';
+                        else if($stt == 'create')   include 'it_create_zz.php';
+                        else if($stt == 'viewdet')  include 'it_viewdet.php';
+                        else if($stt == 'edituser') include 'edituser.php';
+                        
+                    } else if ($_SESSION['section'] == 'admin'){                //== Администраторский раздел 
+                        
+                        if ($_COOKIE['admin_dep_suf'] == 'dit'){
+                         
+                            if ($stt == 'viewcom'){
+                                include 'adm_it_viewcom.php';
+                            } else if ($stt == 'viewdet'){
+                                include 'adm_it_viewdet.php';
+                            }
+                            
+                        } else if ($_COOKIE['admin_dep_suf'] == 'at')   echo 'АДМ ДЕП АТ';
+                          else if ($_COOKIE['admin_dep_suf'] == 'aho')  echo 'АДМ ДЕП АХО';
+                          else                                          echo 'Интерфейс администратора для раздела «'.$_COOKIE['admin_dep_suf'].'» еще не создан.';
+                        
+                    } else if ($_SESSION['section'] == 'zakupki'){              //== Администраторский раздел
+                        if ($_COOKIE['admin_dep_suf'] == 'dit'){
+                         
+                            if ($stt == 'viewcom'){
+                                include 'zak_it_viewcom.php';
+                            } else if ($stt == 'viewdet'){
+                                include 'zak_it_viewdet.php';
+                            }
+                            
+                        } else if ($_COOKIE['admin_dep_suf'] == 'at')   echo 'АДМ ДЕП АТ';
+                          else if ($_COOKIE['admin_dep_suf'] == 'aho')  echo 'АДМ ДЕП АХО';
+                          else                                          echo 'Интерфейс c закупками для раздела «'.$_COOKIE['admin_dep_suf'].'» еще не создан.';
+                        
+                        
+                    }
+                    
+                    
+                
+                }
+            ?>
+            
+            <div class="sep10x10"></div>
+             
+        </div>
+        
+        <!--
+        <div id="infobar" class="informer"></div>
+        <div id="alertHolder"></div>
+        <div id="helpDialog" style="display:none;" title="<img src='src/img/ico_help_c_16x16.png' width='16' height='16' align='top'/> В помощь пользователю"></div>
+        -->
+    </body>
+</html>
+<!-- END: main -->

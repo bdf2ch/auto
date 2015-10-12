@@ -1,0 +1,9 @@
+<div class="requestdir">
+    <div class="header">
+        {{ "Заявка #" +  request.$modelValue.id + " от " + request.$modelValue.dateCreated + ", " + request.$modelValue.timeCreated }}
+        <div class="pull-right container">
+            <button class="btn btn-mini"><i class="icon-edit"></i> Редактировать</button>
+            <button class="close" title="Удалить заявку">&times;</button>
+        </div>
+    </div>
+</div>

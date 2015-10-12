@@ -1,0 +1,49 @@
+<div id="transports">
+    <div id="left-col">
+        <input type="text" class="input-block-level" placeholder="Быстрый поиск" ng-model="search">
+        <span class="small-label">Производственное отделение</span>
+        <select  class="input-block-level"
+            ng-model="department"
+            ng-options="dep.id as dep.title for dep in data.departments.items"
+            ng-change="changeDepartment()">
+        </select>
+        <span class="small-label">Тип транспорта</span>
+        <select  class="input-block-level"
+            id="subtypes"
+            ng-model="subtype"
+            ng-options="subtype.id as subtype.title for subtype in data.transportSubtypes.items">
+        </select>
+    </div>
+    <div id="content" class="container-fluid">
+        <table id="transportsTable" class="table table-hover">
+            <thead>
+            <tr>
+                <th class="span4">Транспортная единица</th>
+                <th class="span3">Производственное отделение</th>
+                <th class="span5">Тип транспортного средства</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="transport in data.transports.items | orderBy:'+displayLabel' | filter:{'displayLabel': search} | department:department | transportsubtype:subtype" id="{{'transport' + transport.id}}" ng-click="setCurrentDriver(driver.id)">
+                <td>
+                    <span>{{ transport.displayLabel }}</span>
+                </td>
+                <td>
+                    <select  class="input-block-level"
+                        ng-model="transport.departmentId"
+                        ng-options="dep.id as dep.title for dep in data.departments.items"
+                        ng-change="saveChanges(transport.id, transport.transportTypeId, transport.transportSubtypeId, transport.departmentId)">
+                    </select>
+                </td>
+                <td>
+                    <select class="input-block-level"
+                        ng-model="transport.transportSubtypeId"
+                        ng-options="subtype.id as subtype.title for subtype in data.transportSubtypes.items"
+                        ng-change="saveChanges(transport.id, transport.transportTypeId, transport.transportSubtypeId, transport.departmentId)">
+                    </select>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
