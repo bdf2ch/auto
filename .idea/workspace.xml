@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a4bbb206-299f-4a61-88c9-35fb7b62f2b0" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/php/utils.php" />
-      <change type="MOVED" beforePath="C:\backup\zayavki\auto\php\reports\request-form" afterPath="$PROJECT_DIR$/php/reports/request-form.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/partials/.gitignore" afterPath="$PROJECT_DIR$/partials/.gitignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/partials/the_list.html" afterPath="$PROJECT_DIR$/partials/the_list.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="auto.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -30,8 +27,18 @@
       <file leaf-file-name="the_list.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/partials/the_list.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-19.615385">
-              <caret line="48" column="63" selection-start-line="48" selection-start-column="63" selection-end-line="48" selection-end-column="63" />
+            <state vertical-scroll-proportion="-15.692307">
+              <caret line="42" column="51" selection-start-line="42" selection-start-column="51" selection-end-line="42" selection-end-column="51" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/partials/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="0" column="6" selection-start-line="0" selection-start-column="6" selection-end-line="0" selection-end-column="6" />
               <folding />
             </state>
           </provider>
@@ -67,10 +74,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="request-form.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="request-form.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/php/reports/request-form.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.53968257">
+            <state vertical-scroll-proportion="0.0">
               <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
               <folding />
             </state>
@@ -119,9 +126,10 @@
         <option value="$PROJECT_DIR$/php/print.php" />
         <option value="$PROJECT_DIR$/php/user.class.php" />
         <option value="$PROJECT_DIR$/php/reports/request-form" />
-        <option value="$PROJECT_DIR$/partials/the_list.html" />
         <option value="$PROJECT_DIR$/php/utils.php" />
         <option value="$PROJECT_DIR$/php/reports/request-form.php" />
+        <option value="$PROJECT_DIR$/partials/the_list.html" />
+        <option value="$PROJECT_DIR$/partials/.gitignore" />
       </list>
     </option>
   </component>
@@ -362,14 +370,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/partials/the_list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-19.615385">
-          <caret line="48" column="63" selection-start-line="48" selection-start-column="63" selection-end-line="48" selection-end-column="63" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/php/addRequest_new.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-19.666666">
@@ -412,8 +412,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/php/reports/request-form.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.53968257">
+        <state vertical-scroll-proportion="0.0">
           <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/partials/the_list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-15.692307">
+          <caret line="42" column="51" selection-start-line="42" selection-start-column="51" selection-end-line="42" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/partials/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="6" selection-start-line="0" selection-start-column="6" selection-end-line="0" selection-end-column="6" />
           <folding />
         </state>
       </provider>

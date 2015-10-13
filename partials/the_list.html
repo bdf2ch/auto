@@ -40,8 +40,8 @@
                         <!-- Печать заявки -->
                         <span ng-show="!req.inEditMode && data.currentUser.id == req.userId">
                             <a class="btn btn-mini btn-block" href="{{ 'php/reports/request-form.php?id=' + req.id }}">
-                                <i class="icon-print"></i>
-                                Печать
+                                <i class="icon-file"></i>
+                                Бланк заявки
                             </a>
                         </span>
                         <button class="btn btn-default btn-block btn-mini" ng-show="req.userId == data.currentUser.id && !req.isCanceled && !req.inEditMode" ng-click="sendRejectRequest(req.id)">
